@@ -8,6 +8,7 @@ import SubjectRouter from "./routes/subjects";
 // instances
 const app = express();
 const PORT = process.env.PORT || 8000;
+const FRONTEND_URL = process.env.FRONTEND_URL;
 
 // default middlewares
 app.use(express.json());
@@ -18,12 +19,12 @@ app.use((req: Request, res: Response, next: NextFunction) => {
 });
 const router = express.Router();
 
-if (!process.env.FRONTEND_URL) {
+if (!FRONTEND_URL) {
   throw new Error("FRONTEND_URL is not set in .env file");
 }
 app.use(
   cors({
-    origin: process.env.FRONTEND_URL,
+    origin: FRONTEND_URL,
     methods: ["GET", "POST", "PUT", "DELETE"],
     credentials: true,
   }),

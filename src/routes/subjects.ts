@@ -10,8 +10,10 @@ const router = express.Router();
 router.get("/", async (req, res) => {
   try {
     const { search, department, page = 1, limit = 10 } = req.query;
-    const currentPage = Math.max(1, +page);
-    const limitPerPage = Math.max(1, +limit);
+    //    const currentPage = Math.max(1, +page);
+    //    const limitPerPage = Math.max(1, +limit);
+   const currentPage = Math.max(1, Number(page) || 1);
+   const limitPerPage = Math.max(1, Math.min(Number(limit) || 10, 100));
     const offSet = (currentPage - 1) * limitPerPage;
 
     const filterConditions = [];
@@ -63,7 +65,7 @@ router.get("/", async (req, res) => {
       },
     });
   } catch (e) {
-    console.error(`GET /subjects error: {e}`);
+    console.error(`GET /subjects error:`, e);
     res.status(500).json({ error: "Failed to get subjects" });
   }
 });
