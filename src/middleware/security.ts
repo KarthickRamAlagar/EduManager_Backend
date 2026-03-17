@@ -110,7 +110,7 @@ const securityMiddleware = async (
   res: Response,
   next: NextFunction,
 ) => {
-  if (bypassEnvs.includes(process.env.NODE_ENV ?? "")) {
+  if (process.env.NODE_ENV !== "production") {
     return next();
   }
 
