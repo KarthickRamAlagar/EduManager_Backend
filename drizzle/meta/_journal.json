@@ -15,6 +15,13 @@
       "when": 1773743453472,
       "tag": "0001_even_magneto",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1773745468561,
+      "tag": "0002_modern_payback",
+      "breakpoints": true
     }
   ]
 }

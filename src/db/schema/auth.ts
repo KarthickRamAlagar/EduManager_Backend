@@ -22,7 +22,7 @@ export const roleEnum = pgEnum("role", ["student", "teacher", "admin"]);
 export const user = pgTable("user", {
   id: text("id").primaryKey(),
   name: text("name").notNull(),
-  email: text("email").notNull(),
+  email: text("email").notNull().unique(),
   emailVerified: boolean("email_verified").notNull(),
   image: text("image"),
   role: roleEnum("role").notNull().default("student"),
@@ -36,8 +36,8 @@ export const session = pgTable(
     id: text("id").primaryKey(),
     userId: text("user_id")
       .notNull()
-      .references(() => user.id),
-    token: text("token").notNull(),
+      .references(() => user.id, { onDelete: "cascade" }),
+    token: text("token").notNull().unique(),
     expiresAt: timestamp("expires_at").notNull(),
     ipAddress: text("ip_address"),
     userAgent: text("user_agent"),
