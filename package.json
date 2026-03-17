@@ -1,6 +1,9 @@
 {
   "name": "class_room_be",
   "version": "1.0.0",
+  "engines": {
+    "node": ">=20"
+  },
   "description": "Class_Room_Backend",
   "license": "ISC",
   "author": "Karthikeyan_R",

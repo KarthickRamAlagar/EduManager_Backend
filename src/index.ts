@@ -11,21 +11,7 @@ const app = express();
 const PORT = process.env.PORT || 8000;
 const FRONTEND_URL = process.env.FRONTEND_URL;
 
-// default middlewares
-app.use(express.json());
-app.use((req: Request, res: Response, next: NextFunction) => {
-  const timeStamp = new Date().toISOString();
-  console.log(`[${timeStamp}] ${req.method} ${req.url}`);
-  next();
-});
-const router = express.Router();
-
-// Arcjet Middleware
-app.use(securityMiddleware);
-
-if (!FRONTEND_URL) {
-  throw new Error("FRONTEND_URL is not set in .env file");
-}
+// default middlewares with correct sequences
 app.use(
   cors({
     origin: FRONTEND_URL,
@@ -33,6 +19,20 @@ app.use(
     credentials: true,
   }),
 );
+
+app.use(express.json());
+
+app.use((req: Request, res: Response, next: NextFunction) => {
+  const timeStamp = new Date().toISOString();
+  console.log(`[${timeStamp}] ${req.method} ${req.url}`);
+  next();
+});
+
+// app.use(authMiddleware);
+
+app.use(securityMiddleware);
+
+const router = express.Router();
 
 // default routes
 router.get("/health", (req: Request, res: Response) => {
