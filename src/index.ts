@@ -1,3 +1,7 @@
+// Site 24x7 imports & instance
+import AgentAPI from "apminsight";
+AgentAPI.config();
+
 import express, { Request, Response, NextFunction } from "express";
 import dotenv from "dotenv";
 dotenv.config();
