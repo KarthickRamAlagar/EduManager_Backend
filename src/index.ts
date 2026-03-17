@@ -4,6 +4,7 @@ dotenv.config();
 import cors from "cors";
 
 import SubjectRouter from "./routes/subjects";
+import securityMiddleware from "./middleware/security";
 
 // instances
 const app = express();
@@ -18,6 +19,9 @@ app.use((req: Request, res: Response, next: NextFunction) => {
   next();
 });
 const router = express.Router();
+
+// Arcjet Middleware
+app.use(securityMiddleware);
 
 if (!FRONTEND_URL) {
   throw new Error("FRONTEND_URL is not set in .env file");
