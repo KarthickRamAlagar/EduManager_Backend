@@ -104,12 +104,13 @@ const getArcjet = async () => {
   return aj;
 };
 
+const bypassEnvs = ["test", "development"];
 const securityMiddleware = async (
   req: Request,
   res: Response,
   next: NextFunction,
 ) => {
-  if (process.env.NODE_ENV !== "production") {
+  if (bypassEnvs.includes(process.env.NODE_ENV ?? "")) {
     return next();
   }
 
