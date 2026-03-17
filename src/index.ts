@@ -21,7 +21,7 @@ app.use(
     credentials: true,
   }),
 );
-app.all("/api/auth/*splat", toNodeHandler(auth));
+
 app.use(express.json());
 app.use((req: Request, res: Response, next: NextFunction) => {
   const timeStamp = new Date().toISOString();
@@ -29,8 +29,8 @@ app.use((req: Request, res: Response, next: NextFunction) => {
   next();
 });
 
-
 app.use(securityMiddleware);
+app.all("/api/auth/*splat", toNodeHandler(auth));
 
 const router = express.Router();
 
