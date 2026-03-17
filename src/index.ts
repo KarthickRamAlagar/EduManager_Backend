@@ -2,9 +2,11 @@ import express, { Request, Response, NextFunction } from "express";
 import dotenv from "dotenv";
 dotenv.config();
 import cors from "cors";
+import { toNodeHandler } from "better-auth/node";
 
 import SubjectRouter from "./routes/subjects";
 import securityMiddleware from "./middleware/security";
+import { auth } from "./lib/auth";
 
 // instances
 const app = express();
@@ -19,16 +21,14 @@ app.use(
     credentials: true,
   }),
 );
-
+app.all("/api/auth/*splat", toNodeHandler(auth));
 app.use(express.json());
-
 app.use((req: Request, res: Response, next: NextFunction) => {
   const timeStamp = new Date().toISOString();
   console.log(`[${timeStamp}] ${req.method} ${req.url}`);
   next();
 });
 
-// app.use(authMiddleware);
 
 app.use(securityMiddleware);
 
