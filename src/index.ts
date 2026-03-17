@@ -8,9 +8,9 @@ dotenv.config();
 import cors from "cors";
 import { toNodeHandler } from "better-auth/node";
 
-import SubjectRouter from "./routes/subjects.js";
-import securityMiddleware from "./middleware/security.js";
-import { auth } from "./lib/auth.js";
+import SubjectRouter from "./routes/subjects";
+import securityMiddleware from "./middleware/security";
+import { auth } from "./lib/auth";
 
 // instances
 const app = express();
