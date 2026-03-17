@@ -39,7 +39,7 @@ app.all("/api/auth/*splat", toNodeHandler(auth));
 const router = express.Router();
 
 // default routes
-router.get("/health", (req: Request, res: Response) => {
+router.get("/", (req: Request, res: Response) => {
   res.json({
     message: "Hi ,I'm System Message and The Server is Healthy",
   });
