@@ -98,7 +98,7 @@ let aj: any;
 // Lazy load Arcjet (prevents crash if env missing)
 const getArcjet = async () => {
   if (!aj) {
-    const module = await import("../config/arcjet");
+    const module = await import("../config/arcjet.js");
     aj = module.default;
   }
   return aj;
