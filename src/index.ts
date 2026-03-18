@@ -11,6 +11,9 @@ import { toNodeHandler } from "better-auth/node";
 import SubjectRouter from "./routes/subjects.js";
 import UserRouter from "./routes/users.js";
 import ClassesRouter from "./routes/classes.js";
+import departmentsRouter from "./routes/departments.js";
+import statsRouter from "./routes/stats.js";
+import enrollmentsRouter from "./routes/enrollments.js";
 import securityMiddleware from "./middleware/security.js";
 import { auth } from "./lib/auth.js";
 
@@ -47,12 +50,16 @@ app.use(
 app.use(express.json());
 app.use((req: Request, res: Response, next: NextFunction) => {
   const timeStamp = new Date().toISOString();
-  console.log(`[${timeStamp}] ${req.method} ${req.url}`);
+
+  res.on("finish", () => {
+    console.log(`[${timeStamp}] ${req.method} ${req.url} ${res.statusCode}`);
+  });
+
   next();
 });
 
+app.use("/api/v1/EduManager/auth", toNodeHandler(auth));
 app.use(securityMiddleware);
-app.all("/api/auth/*splat", toNodeHandler(auth));
 
 const router = express.Router();
 
@@ -67,6 +74,17 @@ app.use("/api/v1/EduManager", router);
 app.use("/api/v1/EduManager/subjects", SubjectRouter);
 app.use("/api/v1/EduManager/users", UserRouter);
 app.use("/api/v1/EduManager/classes", ClassesRouter);
+app.use("/api/v1/EduManager/departments", departmentsRouter);
+app.use("/api/v1/EduManager/stats", statsRouter);
+app.use("/api/v1/EduManager/enrollments", enrollmentsRouter);
+
+app.use((err: any, req: Request, res: Response, next: NextFunction) => {
+  console.error("ERROR:", err);
+
+  res.status(err.status || 500).json({
+    message: err.message || "Internal Server Error",
+  });
+});
 
 app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);

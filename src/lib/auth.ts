@@ -15,6 +15,7 @@ if (!FRONTEND_URL) {
 }
 
 export const auth = betterAuth({
+  baseURL: "http://localhost:8000/api/v1/EduManager/auth",
   secret: BETTER_AUTH_SECRET,
   trustedOrigins: [FRONTEND_URL],
   database: drizzleAdapter(db, {
