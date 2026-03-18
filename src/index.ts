@@ -10,7 +10,7 @@ import { toNodeHandler } from "better-auth/node";
 
 import SubjectRouter from "./routes/subjects.js";
 import UserRouter from "./routes/users.js";
-import ClassesRouter from "./routes/classes.js"
+import ClassesRouter from "./routes/classes.js";
 import securityMiddleware from "./middleware/security.js";
 import { auth } from "./lib/auth.js";
 
@@ -22,7 +22,23 @@ const FRONTEND_URL = process.env.FRONTEND_URL;
 // default middlewares with correct sequences
 app.use(
   cors({
-    origin: FRONTEND_URL,
+    origin: (origin, callback) => {
+      // Allow requests with no origin (like Postman)
+      if (!origin) return callback(null, true);
+
+      // Allow localhost (dev)
+      if (origin.includes("localhost")) {
+        return callback(null, true);
+      }
+
+      // Allow ALL vercel deployments
+      if (origin.includes("vercel.app")) {
+        return callback(null, true);
+      }
+
+      // Block everything else
+      return callback(new Error("Not allowed by CORS"));
+    },
     methods: ["GET", "POST", "PUT", "DELETE"],
     credentials: true,
   }),
