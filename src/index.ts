@@ -9,6 +9,8 @@ import cors from "cors";
 import { toNodeHandler } from "better-auth/node";
 
 import SubjectRouter from "./routes/subjects.js";
+import UserRouter from "./routes/users.js";
+import ClassesRouter from "./routes/classes.js"
 import securityMiddleware from "./middleware/security.js";
 import { auth } from "./lib/auth.js";
 
@@ -47,6 +49,9 @@ router.get("/", (req: Request, res: Response) => {
 
 app.use("/api/v1/EduManager", router);
 app.use("/api/v1/EduManager/subjects", SubjectRouter);
+app.use("/api/v1/EduManager/users", UserRouter);
+app.use("/api/v1/EduManager/classes", ClassesRouter);
+
 app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);
 });
